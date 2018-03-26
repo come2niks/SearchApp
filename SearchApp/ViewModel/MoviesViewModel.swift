@@ -15,9 +15,9 @@ class MoviesViewModel: NSObject {
     // Define an apps property that will hold the data from the iTunes RSS top 100 free apps feed
     //This array is marked an optional (?) because we might not get back data from the iTunes API
     var movies: [MovieRecord]?
-        
     let posterURL = "http://image.tmdb.org/t/p/w92"
-    
+    var searchQueries: [String] = []
+
     // This function is what directly accesses the apiClient to make the API call
     func getMovies(fromSearch: String, pageNumber: Int, completion: @escaping () -> Void) {
         if pageNumber == 1 {
@@ -26,6 +26,17 @@ class MoviesViewModel: NSObject {
         // call on the apiClient to fetch the apps
         networkManager.fetchMoviesList(fromSearch: fromSearch, pageNumber: pageNumber, completion: { (moviesList) in
             // Put this block on the main queue because our completion handler is where the data display code will happen and we don't want to block any UI code.
+            if pageNumber == 1 && moviesList!.count > 0 {
+                let defaults = UserDefaults.standard
+                self.searchQueries = defaults.stringArray(forKey: "searchQueriesArray") ?? [String]()
+                if self.searchQueries.count >= 0 && self.searchQueries.count < 10 {
+                    self.searchQueries.insert(fromSearch, at: 0)
+                } else {
+                    self.searchQueries.removeLast()
+                    self.searchQueries.insert(fromSearch, at: 0)
+                }
+                defaults.set(self.searchQueries, forKey: "searchQueriesArray")
+            }
             DispatchQueue.main.async {
                 
                 // assign our local apps array to our returned json

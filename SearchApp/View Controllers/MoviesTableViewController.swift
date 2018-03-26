@@ -12,7 +12,7 @@ import SDWebImage
 class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
     
     var searchController: UISearchController!
-    var currentPage : Int = 1
+    var currentPage : Int = 0
     var isLoadingList : Bool = false
     var searchQuery: String = ""
     
@@ -34,7 +34,6 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // Search controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let resultsController: SearchTableViewController = storyboard.instantiateViewController(withIdentifier: "searchResults") as! SearchTableViewController
-//        UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@”TableSearchResultsNavController”];
 
         searchController = UISearchController(searchResultsController: resultsController )
         searchController.delegate = self
@@ -56,6 +55,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchQuery = searchBar.text!
+        self.isLoadingList = true
         moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: 1) {
             self.isLoadingList = false
             self.tableView.reloadData()
@@ -65,6 +65,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     }
 
     func willPresentSearchController(_ searchController: UISearchController) {
+        currentPage = 0
         searchController.searchResultsController?.view.isHidden = false
     }
     
@@ -72,8 +73,16 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         searchController.searchResultsController?.view.isHidden = false
     }
     
-    func getListFromServer(_ pageNumber: Int){
-        moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: pageNumber) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchQuery = ""
+    }
+    
+//    func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
+//        print("im pressed")
+//    }
+    
+    func getListFromServer(_ pageNumber: Int, fromSearch: String){
+        moviesViewModel.getMovies(fromSearch: fromSearch, pageNumber: pageNumber) {
             self.isLoadingList = false
             self.tableView.reloadData()
         }
@@ -81,7 +90,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     
     func loadMoreItemsForList(){
         currentPage += 1
-        getListFromServer(currentPage)
+        getListFromServer(currentPage, fromSearch: searchQuery)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {

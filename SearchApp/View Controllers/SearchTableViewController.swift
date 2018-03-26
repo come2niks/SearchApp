@@ -10,10 +10,19 @@ import UIKit
 
 class SearchTableViewController: UITableViewController {
 
+    var searchQueries: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.tableFooterView = UIView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let defaults = UserDefaults.standard
+        searchQueries = defaults.stringArray(forKey: "searchQueriesArray") ?? [String]()
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,24 +39,24 @@ class SearchTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return searchQueries.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
-        cell.textLabel?.text = "This is search string"
+        cell.textLabel?.text = searchQueries[indexPath.row]
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        (lldb) po self.presentingViewController
-//            ▿ Optional<UIViewController>
-//            ▿ some : <SearchApp.MoviesTableViewController: 0x7fa67c60a710>
-//        (lldb) po (self.presentingViewController as! MoviesTableViewController).currentPage
+        let searchString = searchQueries[indexPath.row]
+        searchQueries.remove(at: indexPath.row)
+        UserDefaults.standard.set(self.searchQueries, forKey: "searchQueriesArray")
 
+        (self.presentingViewController as! MoviesTableViewController).getListFromServer(1, fromSearch: searchString)
+        
         self.dismiss(animated: true, completion: nil)
     }
 
