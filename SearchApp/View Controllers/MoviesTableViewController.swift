@@ -11,19 +11,15 @@ import UIKit
 class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
     
     var searchController: UISearchController!
-    
-    var models = [Model]()
-    var filteredModels = [Model]()
+    var currentPage : Int = 1
+    var isLoadingList : Bool = false
+    var searchQuery: String = ""
     
     @IBOutlet var moviesViewModel: MoviesViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        moviesViewModel.getMovies {
-//            self.tableView.reloadData()
-//        }
-
         setupSearchController()
 
         tableView.tableFooterView = UIView()
@@ -88,7 +84,9 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
 //
 //        filteredData = array as! [Dictionary<String, String>]
         
-        moviesViewModel.getMovies(fromSearch: searchBar.text!) {
+        searchQuery = searchBar.text!
+        moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: 1) {
+            self.isLoadingList = false
             self.tableView.reloadData()
         }
 //        self.view.endEditing(true)
@@ -104,6 +102,24 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         searchController.searchResultsController?.view.isHidden = false
     }
     
+    func getListFromServer(_ pageNumber: Int){
+        moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: pageNumber) {
+            self.isLoadingList = false
+            self.tableView.reloadData()
+        }
+    }
+    
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getListFromServer(currentPage)
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList && searchQuery != ""){
+            self.isLoadingList = true
+            self.loadMoreItemsForList()
+        }
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

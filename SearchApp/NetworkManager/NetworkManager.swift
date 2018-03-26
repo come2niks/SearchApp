@@ -10,10 +10,10 @@ import UIKit
 
 class NetworkManager: NSObject {
 
-    func fetchMoviesList(fromSearch:String, completion: @escaping ([MovieRecord]?) -> Void) {
+    func fetchMoviesList(fromSearch: String, pageNumber: Int, completion: @escaping ([MovieRecord]?) -> Void) {
         
         //3 - unwrap our API endpoint https://rss.itunes.apple.com/api/v1/us/apple-music/hot-tracks/all/100/explicit.json
-        guard let url = URL(string: "http://api.themoviedb.org/3/search/movie?api_key=2696829a81b1b5827d515ff121700838&query=\(fromSearch)&page=1") else {
+        guard let url = URL(string: "http://api.themoviedb.org/3/search/movie?api_key=2696829a81b1b5827d515ff121700838&query=\(fromSearch)&page=\(pageNumber)") else {
             print("Error unwrapping URL"); return }
         
         //4 - create a session and dataTask on that session to get data/response/error
