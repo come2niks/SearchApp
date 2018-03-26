@@ -10,8 +10,10 @@ import UIKit
 
 class SearchTableViewController: UITableViewController {
 
-    var searchQueries: [String] = []
+//    var searchQueries: [String] = []
     
+    @IBOutlet var searchViewModel: SearchViewModel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,9 +22,9 @@ class SearchTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let defaults = UserDefaults.standard
-        searchQueries = defaults.stringArray(forKey: "searchQueriesArray") ?? [String]()
-        tableView.reloadData()
+        searchViewModel.getSearchQureies {
+            self.tableView.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,24 +41,19 @@ class SearchTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return searchQueries.count
+        return searchViewModel.numberOfItemsToDisplay(in: section)
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        cell.textLabel?.text = searchQueries[indexPath.row]
+        cell.textLabel?.text = searchViewModel.queryStringToDisplay(for: indexPath)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let searchString = searchQueries[indexPath.row]
-        searchQueries.remove(at: indexPath.row)
-        UserDefaults.standard.set(self.searchQueries, forKey: "searchQueriesArray")
-
-        (self.presentingViewController as! MoviesTableViewController).getListFromServer(1, fromSearch: searchString)
-        
+        (self.presentingViewController as! MoviesTableViewController).getListFromServer(1, fromSearch: searchViewModel.searchStringSelected(for: indexPath))
         self.dismiss(animated: true, completion: nil)
     }
 

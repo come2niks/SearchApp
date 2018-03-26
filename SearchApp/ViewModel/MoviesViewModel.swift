@@ -48,7 +48,6 @@ class MoviesViewModel: NSObject {
                 // call our completion handler because it is in this completion that we will reload data in our view controller tableview
                 completion()
             }
-
         })
     }
 
