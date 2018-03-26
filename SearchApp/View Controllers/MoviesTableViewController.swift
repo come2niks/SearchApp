@@ -23,20 +23,6 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         setupSearchController()
 
         tableView.tableFooterView = UIView()
-        
-        models = [
-            Model(movie:"The Dark Night", genre:"Action"),
-            Model(movie:"The Avengers", genre:"Action"),
-            Model(movie:"Logan", genre:"Action"),
-            Model(movie:"Shutter Island", genre:"Thriller"),
-            Model(movie:"Inception", genre:"Thriller"),
-            Model(movie:"Titanic", genre:"Romance"),
-            Model(movie:"La la Land", genre:"Romance"),
-            Model(movie:"Gone with the Wind", genre:"Romance"),
-            Model(movie:"Godfather", genre:"Drama"),
-            Model(movie:"Moonlight", genre:"Drama")
-        ]
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,34 +48,16 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         definesPresentationContext = true
         tableView.tableHeaderView = self.searchController!.searchBar
     }
-
-    func filterRowsForSearchedText(_ searchText: String) {
-        filteredModels = models.filter({( model : Model) -> Bool in
-            return model.movie.lowercased().contains(searchText.lowercased())||model.genre.lowercased().contains(searchText.lowercased())
-        })
-        tableView.reloadData()
-    }
     
     func updateSearchResults(for searchController: UISearchController) {
-        if let term = searchController.searchBar.text {
-            filterRowsForSearchedText(term)
-        }
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        filteredData = []
-//
-//        let searchPredicate = NSPredicate(format: "SELF CONTAINS[cd] %@", searchController.searchBar.text!)
-//        let array = (airportData as NSArray).filteredArrayUsingPredicate(searchPredicate)
-//
-//        filteredData = array as! [Dictionary<String, String>]
-        
         searchQuery = searchBar.text!
         moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: 1) {
             self.isLoadingList = false
             self.tableView.reloadData()
         }
-//        self.view.endEditing(true)
         searchController.searchResultsController?.dismiss(animated: true, completion: nil)
         searchController.searchResultsController?.view.isHidden = true
     }
@@ -129,12 +97,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-//        if searchController.isActive && searchController.searchBar.text != "" {
-//            return filteredModels.count
-//        }
-//        return models.count
         return moviesViewModel.numberOfItemsToDisplay(in: section)
-
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -143,17 +106,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath)
 
-        // Configure the cell...
-//        let model: Model
-//        if searchController.isActive && searchController.searchBar.text != "" {
-//            model = filteredModels[indexPath.row]
-//        } else {
-//            model = models[indexPath.row]
-//        }
-//        cell.textLabel!.text = model.movie
-//        cell.detailTextLabel!.text = model.genre
-        
-        
+        // Configure the cell...        
         cell.textLabel?.text = moviesViewModel.movieTitleToDisplay(for: indexPath)
         //8 -
         cell.detailTextLabel?.text = moviesViewModel.movieReleaseDateToDisplay(for: indexPath)
