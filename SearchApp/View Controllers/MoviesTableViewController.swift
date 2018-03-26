@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
     
@@ -21,7 +22,6 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         super.viewDidLoad()
         
         setupSearchController()
-
         tableView.tableFooterView = UIView()
     }
 
@@ -34,6 +34,8 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // Search controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let resultsController: SearchTableViewController = storyboard.instantiateViewController(withIdentifier: "searchResults") as! SearchTableViewController
+//        UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@”TableSearchResultsNavController”];
+
         searchController = UISearchController(searchResultsController: resultsController )
         searchController.delegate = self
         searchController.searchBar.delegate = self
@@ -99,20 +101,21 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // #warning Incomplete implementation, return the number of rows
         return moviesViewModel.numberOfItemsToDisplay(in: section)
     }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath) as! MovieRecordTableViewCell
 
         // Configure the cell...        
-        cell.textLabel?.text = moviesViewModel.movieTitleToDisplay(for: indexPath)
-        //8 -
-        cell.detailTextLabel?.text = moviesViewModel.movieReleaseDateToDisplay(for: indexPath)
-        
-//        cell.imageView?.image = //! Image download async
+        cell.titleLabel?.text = moviesViewModel.movieTitleToDisplay(for: indexPath)
+        cell.releaseDateLabel?.text = moviesViewModel.movieReleaseDateToDisplay(for: indexPath)
+        cell.overviewLabel.text = moviesViewModel.movieOverviewToDisplay(for: indexPath)
+        cell.posterImageView?.sd_setImage(with: URL.init(string: moviesViewModel.moviePosterUrlToDisplay(for: indexPath)), placeholderImage: nil)
+
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
     }
 
 }
