@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  SearchApp
+
+  Created by Nikhilesh Walde on 22/03/2018.
+  Copyright © 2018 PrepayNation. All rights reserved.
+*/
+
+"search_bar_placeholder" = "Search movies";
