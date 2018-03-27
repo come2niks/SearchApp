@@ -131,7 +131,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         cell.titleLabel?.text = moviesViewModel.movieTitleToDisplay(for: indexPath)
         cell.releaseDateLabel?.text = moviesViewModel.movieReleaseDateToDisplay(for: indexPath)
         cell.overviewLabel.text = moviesViewModel.movieOverviewToDisplay(for: indexPath)
-        cell.posterImageView?.sd_setImage(with: URL.init(string: moviesViewModel.moviePosterUrlToDisplay(for: indexPath)), placeholderImage: nil)
+        cell.posterImageView?.sd_setImage(with: URL.init(string: moviesViewModel.moviePosterUrlToDisplay(for: indexPath)), placeholderImage: UIImage.init(named: "Placeholder"))
         return cell
     }
 
