@@ -7,3 +7,4 @@
 */
 
 "search_bar_placeholder" = "Search movies";
+"search_result_error" = "No result found";

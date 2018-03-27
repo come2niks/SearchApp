@@ -52,18 +52,8 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         tableView.tableHeaderView = self.searchController!.searchBar
     }
     
+    // MARK: - Search Controller delegate methods
     func updateSearchResults(for searchController: UISearchController) {
-    }
-
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchQuery = searchBar.text!
-        self.isLoadingList = true
-        moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: 1) {
-            self.isLoadingList = false
-            self.tableView.reloadData()
-        }
-        searchController.searchResultsController?.dismiss(animated: true, completion: nil)
-        searchController.searchResultsController?.view.isHidden = true
     }
 
     func willPresentSearchController(_ searchController: UISearchController) {
@@ -74,11 +64,30 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     func didPresentSearchController(_ searchController: UISearchController) {
         searchController.searchResultsController?.view.isHidden = false
     }
+
+    // MARK: - Search Bar delegate methods
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchQuery = searchBar.text!
+        self.isLoadingList = true
+        moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: 1) {
+            let moviesCount = self.moviesViewModel.numberOfItemsToDisplay()
+            if moviesCount == 0 {
+                DispatchQueue.main.async {
+                    self.showAlert( NSLocalizedString("search_result_error", comment: "") )
+                }
+            }
+            self.isLoadingList = false
+            self.tableView.reloadData()
+        }
+        searchController.searchResultsController?.dismiss(animated: true, completion: nil)
+        searchController.searchResultsController?.view.isHidden = true
+    }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchQuery = ""
     }
     
+    // MARK: - Pagination
     func getListFromServer(_ pageNumber: Int, fromSearch: String){
         moviesViewModel.getMovies(fromSearch: fromSearch, pageNumber: pageNumber) {
             self.isLoadingList = false
@@ -99,7 +108,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     }
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return moviesViewModel.numberOfItemsToDisplay(in: section)
+        return moviesViewModel.numberOfItemsToDisplay()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -110,6 +119,13 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         cell.overviewLabel.text = moviesViewModel.movieOverviewToDisplay(for: indexPath)
         cell.posterImageView?.sd_setImage(with: URL.init(string: moviesViewModel.moviePosterUrlToDisplay(for: indexPath)), placeholderImage: nil)
         return cell
+    }
+
+    // MARK: - Utility methods
+    func showAlert( _ message: String ) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction( UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
