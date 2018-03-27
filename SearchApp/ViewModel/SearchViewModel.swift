@@ -27,10 +27,11 @@ class SearchViewModel: NSObject {
                 searchQueries?.removeLast()
                 searchQueries?.insert(fromSearch, at: 0)
             }
-            defaults.set(self.searchQueries, forKey: "searchQueriesArray")
         } else {
-            defaults.set([], forKey: "searchQueriesArray")
+            searchQueries = []
+            searchQueries?.insert(fromSearch, at: 0)
         }
+        defaults.set(self.searchQueries, forKey: "searchQueriesArray")
         completion()
     }
     

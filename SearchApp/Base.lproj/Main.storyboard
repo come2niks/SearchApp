@@ -149,7 +149,6 @@
                             <outlet property="delegate" destination="D8Y-qb-laC" id="IGa-tr-eDD"/>
                         </connections>
                     </tableView>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="searchViewModel" destination="Ov2-ka-PAJ" id="WDt-c6-VWm"/>
                     </connections>
