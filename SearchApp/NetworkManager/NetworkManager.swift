@@ -43,7 +43,7 @@ class NetworkManager: NSObject {
                 /// .allowFragments specifies that the json parser should allow top-level objects that aren't NSArrays or NSDictionaries.
                 if let responseJSON = try JSONSerialization.jsonObject(with: unwrappedData, options: .allowFragments) as? NSDictionary {
 
-                    /// create an array of movies from
+                    /// create an array of movies after parsing
                     if let movies = MoviesListObject(dictionary: responseJSON)?.movies {
                         
                         /// Set the completion handler with our array of movies

@@ -45,7 +45,9 @@ class SearchTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         /// Get movies list from server for selected search string
-        (self.presentingViewController as! MoviesTableViewController).getMoviesListFromServer(1, fromSearch: searchViewModel.getSelectedSearchString(for: indexPath))
+        let searchString = searchViewModel.getSelectedSearchString(for: indexPath)
+        (self.presentingViewController as! MoviesTableViewController).getMoviesListFromServer(1, fromSearch: searchString)
+        (self.presentingViewController as! MoviesTableViewController).searchController.searchBar.text = searchString
         self.dismiss(animated: true, completion: nil)
     }
 
