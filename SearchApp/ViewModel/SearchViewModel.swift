@@ -14,7 +14,23 @@ class SearchViewModel: NSObject {
 
     func getSearchQureies(completion: @escaping () -> Void) {
         searchQueries = UserDefaults.standard.stringArray(forKey: "searchQueriesArray") ?? [String]()
-
+        completion()
+    }
+    
+    func saveSearchQueries(fromSearch: String, completion: @escaping () -> Void) {
+        let defaults = UserDefaults.standard
+        if let queries = defaults.stringArray(forKey: "searchQueriesArray") {
+            searchQueries = queries
+            if queries.count >= 0 && queries.count < 10 {
+                searchQueries?.insert(fromSearch, at: 0)
+            } else {
+                searchQueries?.removeLast()
+                searchQueries?.insert(fromSearch, at: 0)
+            }
+            defaults.set(self.searchQueries, forKey: "searchQueriesArray")
+        } else {
+            defaults.set([], forKey: "searchQueriesArray")
+        }
         completion()
     }
     

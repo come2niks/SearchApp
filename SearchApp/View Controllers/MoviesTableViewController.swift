@@ -22,6 +22,8 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         super.viewDidLoad()
         
         setupSearchController()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 200
         tableView.tableFooterView = UIView()
     }
 
@@ -77,10 +79,6 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         searchQuery = ""
     }
     
-//    func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
-//        print("im pressed")
-//    }
-    
     func getListFromServer(_ pageNumber: Int, fromSearch: String){
         moviesViewModel.getMovies(fromSearch: fromSearch, pageNumber: pageNumber) {
             self.isLoadingList = false
@@ -100,31 +98,18 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         }
     }
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return moviesViewModel.numberOfItemsToDisplay(in: section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath) as! MovieRecordTableViewCell
-
         // Configure the cell...        
         cell.titleLabel?.text = moviesViewModel.movieTitleToDisplay(for: indexPath)
         cell.releaseDateLabel?.text = moviesViewModel.movieReleaseDateToDisplay(for: indexPath)
         cell.overviewLabel.text = moviesViewModel.movieOverviewToDisplay(for: indexPath)
         cell.posterImageView?.sd_setImage(with: URL.init(string: moviesViewModel.moviePosterUrlToDisplay(for: indexPath)), placeholderImage: nil)
-
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
     }
 
 }
