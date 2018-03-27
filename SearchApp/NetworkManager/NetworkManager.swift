@@ -29,14 +29,14 @@ class NetworkManager: NSObject {
         let api_key = Bundle.main.object(forInfoDictionaryKey: "API_KEY") ?? ""
         /// Unwrap API
         guard let url = URL(string: "\(server_url)?api_key=\(api_key)&query=\(fromSearch)&page=\(pageNumber)") else {
-            print("Error unwrapping URL"); return }
+            print(NSLocalizedString("error_unwrapping_url", comment: "")); return }
 
         /// Create a session and dataTask for session to get data, response and error
         let session = URLSession.shared
         let dataTask = session.dataTask(with: url) { (data, response, error) in
             
             /// Unwrap response data
-            guard let unwrappedData = data else { print("Error getting data"); return }
+            guard let unwrappedData = data else { print(NSLocalizedString("error_getting_data", comment: "")); return }
             
             do {
                 /// Create an object for JSON data and cast it to NSDictionary
@@ -53,9 +53,9 @@ class NetworkManager: NSObject {
                     }
                 }
             } catch {
-                /// if we get an error, set completion with nil
+                /// if we get an error, set completion with nil 
                 completion(nil)
-                print("Error getting API data: \(error.localizedDescription)")
+                print(String.localizedStringWithFormat(NSLocalizedString("error_getting_api", comment: ""), error.localizedDescription))
             }
         }
         /// resume the task
