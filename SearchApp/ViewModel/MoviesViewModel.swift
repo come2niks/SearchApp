@@ -10,7 +10,9 @@ import UIKit
 
 class MoviesViewModel: NSObject {
 
+    /// Network Manager is used to make API calls
     @IBOutlet var networkManager: NetworkManager!
+    /// Search ViewModel handles all search queries related operations
     @IBOutlet var searchViewModel: SearchViewModel!
 
     /// Define properties that will hold the movies data.
@@ -61,19 +63,43 @@ class MoviesViewModel: NSObject {
         return movies?.count ?? 0
     }
     
+    /**
+     This function gives url to display movie poster
+     
+     - Parameter indexPath: This is IndexPath, which is used to extract movie record in movies list.
+     - Returns: The url string to display Movie poster.
+     */
     func moviePosterUrlToDisplay(for indexPath: IndexPath) -> String {
         let posterURL = Bundle.main.object(forInfoDictionaryKey: "IMAGE_SERVER_URL") as? String ?? ""
         return posterURL + (movies?[indexPath.row].poster_path ?? "")
     }
 
+    /**
+     This function gives movie title
+     
+     - Parameter indexPath: This is IndexPath, which is used to extract movie record in movies list.
+     - Returns: The movie name to display as Movie title.
+     */
     func movieTitleToDisplay(for indexPath: IndexPath) -> String {
         return movies?[indexPath.row].title ?? ""
     }
     
+    /**
+     This function gives movie release date
+     
+     - Parameter indexPath: This is IndexPath, which is used to extract movie record in movies list.
+     - Returns: The release date string to display.
+     */
     func movieReleaseDateToDisplay(for indexPath: IndexPath) -> String {
         return movies?[indexPath.row].release_date ?? ""
     }
     
+    /**
+     This function gives movie overview
+     
+     - Parameter indexPath: This is IndexPath, which is used to extract movie record in movies list.
+     - Returns: The full movie overview string to display.
+     */
     func movieOverviewToDisplay(for indexPath: IndexPath) -> String {
         return movies?[indexPath.row].overview ?? ""
     }

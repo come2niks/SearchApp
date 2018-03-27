@@ -61,6 +61,12 @@ class SearchViewModel: NSObject {
         return searchQueries?.count ?? 0
     }
     
+    /**
+     This function returns the query string
+     
+     - Parameter indexPath: This is IndexPath, which is used to search string in searchQueries array.
+     - Returns: The search query string to display.
+     */
     func queryStringToDisplay(for indexPath: IndexPath) -> String {
         return searchQueries?[indexPath.row] ?? ""
     }
@@ -69,6 +75,7 @@ class SearchViewModel: NSObject {
      This function returns the selected string
      
      - Parameter indexPath: This is IndexPath, which is used to search string in searchQueries array.
+     - Returns: The selected search query string.
      */
     func getSelectedSearchString(for indexPath: IndexPath) -> String {
         let searchString = searchQueries?[indexPath.row]

@@ -19,7 +19,7 @@ class SearchTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // get search queries and load that in table view
+        /// get search queries and load that in table view
         searchViewModel.getSearchQureies {
             self.tableView.reloadData()
         }
@@ -45,7 +45,7 @@ class SearchTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         /// Get movies list from server for selected search string
-        (self.presentingViewController as! MoviesTableViewController).getListFromServer(1, fromSearch: searchViewModel.getSelectedSearchString(for: indexPath))
+        (self.presentingViewController as! MoviesTableViewController).getMoviesListFromServer(1, fromSearch: searchViewModel.getSelectedSearchString(for: indexPath))
         self.dismiss(animated: true, completion: nil)
     }
 

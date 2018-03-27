@@ -15,7 +15,8 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     var currentPage : Int = 0
     var isLoadingList : Bool = false
     var searchQuery: String = ""
-    
+    /// View Model for movies,
+    /// it hides all the binding
     @IBOutlet var moviesViewModel: MoviesViewModel!
 
     override func viewDidLoad() {
@@ -32,6 +33,9 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     It setup search controller, initialze Search Results Controller and add SearchController in table header
+     */
     func setupSearchController() {
         // Search controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -69,6 +73,7 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchQuery = searchBar.text!
         self.isLoadingList = true
+        /// Get movies list from search query string and perform necessary action on closure completion
         moviesViewModel.getMovies(fromSearch: searchQuery, pageNumber: 1) {
             let moviesCount = self.moviesViewModel.numberOfItemsToDisplay()
             if moviesCount == 0 {
@@ -88,16 +93,25 @@ class MoviesTableViewController: UITableViewController, UISearchBarDelegate, UIS
     }
     
     // MARK: - Pagination
-    func getListFromServer(_ pageNumber: Int, fromSearch: String){
+    /**
+     This function gets movies list from server for different pages if available
+     
+     - Parameter pageNumber: This parameter is Int and is the page number to fetch.
+     - Parameter fromSearch: This parameter is String and is the search query string.
+     */
+    func getMoviesListFromServer(_ pageNumber: Int, fromSearch: String){
         moviesViewModel.getMovies(fromSearch: fromSearch, pageNumber: pageNumber) {
             self.isLoadingList = false
             self.tableView.reloadData()
         }
     }
     
+    /**
+     This function increments the current page number for search pagination and calls getListFromServer
+     */
     func loadMoreItemsForList(){
         currentPage += 1
-        getListFromServer(currentPage, fromSearch: searchQuery)
+        getMoviesListFromServer(currentPage, fromSearch: searchQuery)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
