@@ -48,6 +48,7 @@
 		17F736E2BD9771276CAA3AEE /* Pods-SearchAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchAppUITests/Pods-SearchAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		344B77529A2EAA7D8E497D66 /* Pods_SearchApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CA5AA4FDE8E2190FA1D72CB /* Pods-SearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SearchApp/Pods-SearchApp.release.xcconfig"; sourceTree = "<group>"; };
+		7295C10D206A7C2B00FA37F5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		729BF78C2065003E007F536B /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		729BF7B520650625007F536B /* MoviesListObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesListObject.swift; sourceTree = "<group>"; };
 		729BF7B620650625007F536B /* MovieRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieRecord.swift; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 				72BFA4472062D3ED00F39997 /* LaunchScreen.storyboard */,
 				72BFA44A2062D3ED00F39997 /* Info.plist */,
 				72BFA4912062DF6F00F39997 /* Localizable.strings */,
+				7295C10D206A7C2B00FA37F5 /* README.md */,
 			);
 			path = SearchApp;
 			sourceTree = "<group>";
