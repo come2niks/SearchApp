@@ -16,7 +16,7 @@ class MoviesViewModel: NSObject {
     // Define an apps property that will hold the data from the iTunes RSS top 100 free apps feed
     //This array is marked an optional (?) because we might not get back data from the iTunes API
     var movies: [MovieRecord]?
-    let posterURL = "http://image.tmdb.org/t/p/w92"
+    let posterURL = Bundle.main.object(forInfoDictionaryKey: "IMAGE_SERVER_URL") as? String ?? ""
 
     // This function is what directly accesses the apiClient to make the API call
     func getMovies(fromSearch: String, pageNumber: Int, completion: @escaping () -> Void) {

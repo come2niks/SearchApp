@@ -44,7 +44,7 @@ class SearchViewModel: NSObject {
         return searchQueries?[indexPath.row] ?? ""
     }
     
-    func searchStringSelected(for indexPath: IndexPath) -> String {
+    func getSelectedSearchString(for indexPath: IndexPath) -> String {
         let searchString = searchQueries?[indexPath.row]
         searchQueries?.remove(at: indexPath.row)
         UserDefaults.standard.set(self.searchQueries, forKey: "searchQueriesArray")

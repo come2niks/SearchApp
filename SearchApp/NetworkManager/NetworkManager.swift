@@ -13,9 +13,12 @@ class NetworkManager: NSObject {
     func fetchMoviesList(fromSearch: String, pageNumber: Int, completion: @escaping ([MovieRecord]?) -> Void) {
         
         // unwrap our API endpoint
-        guard let url = URL(string: "http://api.themoviedb.org/3/search/movie?api_key=2696829a81b1b5827d515ff121700838&query=\(fromSearch)&page=\(pageNumber)") else {
+        let server_url = Bundle.main.object(forInfoDictionaryKey: "SERVER_URL") ?? ""
+        let api_key = Bundle.main.object(forInfoDictionaryKey: "API_KEY") ?? ""
+        guard let url = URL(string: "\(server_url)?api_key=\(api_key)&query=\(fromSearch)&page=\(pageNumber)") else {
             print("Error unwrapping URL"); return }
         
+
         // create a session and dataTask on that session to get data/response/error
         let session = URLSession.shared
         let dataTask = session.dataTask(with: url) { (data, response, error) in

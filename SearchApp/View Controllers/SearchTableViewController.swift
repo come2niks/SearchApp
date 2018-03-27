@@ -41,7 +41,7 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        (self.presentingViewController as! MoviesTableViewController).getListFromServer(1, fromSearch: searchViewModel.searchStringSelected(for: indexPath))
+        (self.presentingViewController as! MoviesTableViewController).getListFromServer(1, fromSearch: searchViewModel.getSelectedSearchString(for: indexPath))
         self.dismiss(animated: true, completion: nil)
     }
 
