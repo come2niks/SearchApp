@@ -699,7 +699,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F353D01740044EF98EC40911 /* Pods-SearchApp.debug.xcconfig */;
 			buildSettings = {
-				API_KEY = 2696829a81b1b5827d515ff121700838;
+				API_KEY = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y4H9Q5Q8C5;
@@ -718,7 +718,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CA5AA4FDE8E2190FA1D72CB /* Pods-SearchApp.release.xcconfig */;
 			buildSettings = {
-				API_KEY = 2696829a81b1b5827d515ff121700838;
+				API_KEY = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y4H9Q5Q8C5;
