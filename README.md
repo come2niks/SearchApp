@@ -27,6 +27,12 @@ pod install
 
 after installation completes run the SearchApp.xcworkspace
 
+Open Build Settings and enter API_Key in user_defined settings
+
+### Description
+
+We are using MVVM archetecture pattern. 
+
 ## Running the tests
 
 Test for Network manager is available
