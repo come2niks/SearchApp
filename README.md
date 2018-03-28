@@ -38,4 +38,4 @@ Test for Network manager is available
 
 ## Author
 
-* **Nikhilesh Walde** - *Initial work* - [NWalde](https://github.com/nwalde)
+* **Nikhilesh Walde** - *Initial work* - [come2niks](https://github.com/come2niks)
