@@ -41,19 +41,34 @@ class SearchViewModel: NSObject {
             searchQueries = queries
             /// if we have more less than 10 search Queries then directly insert query to searchQueries array
             if queries.count >= 0 && queries.count < 10 {
-                searchQueries?.insert(fromSearch, at: 0)
+                searchQueries = uniqueArray(array: searchQueries!, value: fromSearch)
             } else {
                 /// else remove last object and insert query @ the start of the array
                 searchQueries?.removeLast()
-                searchQueries?.insert(fromSearch, at: 0)
+                searchQueries = uniqueArray(array: searchQueries!, value: fromSearch)
             }
         } else {
             /// if no queries available, directly add query to searchQueries array
             searchQueries = []
-            searchQueries?.insert(fromSearch, at: 0)
+            searchQueries = uniqueArray(array: searchQueries!, value: fromSearch)
         }
         defaults.set(self.searchQueries, forKey: "searchQueriesArray")
         completion()
+    }
+    
+    /**
+     This function check if object is already present in array and returns unique array of string
+     
+     - Parameter array: This is array which needs to check.
+     - Parameter value: This is value which needs to check in array.
+     - Returns: The array of unique strings.
+     */
+    func uniqueArray(array: [String], value: String) -> [String] {
+        var array = array
+        if !array.contains(value) {
+            array.insert(value, at: 0)
+        }
+        return array
     }
     
     // MARK: - values to display in our table view controller
